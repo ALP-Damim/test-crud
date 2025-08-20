@@ -5,9 +5,11 @@ import com.kt.damim.testcrud.service.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -20,13 +22,24 @@ public class QuestionController {
     
     private final QuestionService questionService;
     
-    @PostMapping("/exams/{examId}/questions")
+//    @PostMapping("/exams/{examId}/questions")
+//    public ResponseEntity<QuestionResponse> addQuestion(
+//            @PathVariable UUID examId,
+//            @Valid @RequestBody CreateQuestionRequest request) {
+//        log.info("문항 추가 요청: examId={}, request={}", examId, request);
+//        QuestionResponse response = questionService.addQuestion(examId, request);
+//        return ResponseEntity.ok(response);
+//    }
+    @PostMapping(value = "/exams/{examId}/questions", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<QuestionResponse> addQuestion(
             @PathVariable UUID examId,
-            @Valid @RequestBody CreateQuestionRequest request) {
-        log.info("문항 추가 요청: examId={}, request={}", examId, request);
-        QuestionResponse response = questionService.addQuestion(examId, request);
-        return ResponseEntity.ok(response);
+            @Valid @RequestBody CreateQuestionRequest req) {
+
+        QuestionResponse res = questionService.addQuestion(examId, req);
+        // 201 Created + Location 헤더(선택)
+        return ResponseEntity
+                .created(URI.create("/api/questions/" + res.id()))
+                .body(res);
     }
     
     @GetMapping("/exams/{examId}/questions")
