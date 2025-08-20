@@ -2,17 +2,17 @@ package com.kt.damim.testcrud.dto;
 
 import lombok.Builder;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
+
 
 @Builder
 public record ExamResponse(
-    UUID id,
-    UUID classId,
+    Long id,
+    Long classId,
     String name,
     String difficulty,
-    UUID createdBy,
-    OffsetDateTime createdAt,
+    Long createdBy,
+    Instant createdAt,
     List<QuestionResponse> questions
 ) {}

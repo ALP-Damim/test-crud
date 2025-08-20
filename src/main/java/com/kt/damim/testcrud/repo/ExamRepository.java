@@ -5,12 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @Repository
-public interface ExamRepository extends JpaRepository<Exam, UUID> {
+public interface ExamRepository extends JpaRepository<Exam, Long> {
     
-    List<Exam> findByClassIdAndDifficultyOrderByCreatedAtDesc(UUID classId, String difficulty);
+    List<Exam> findByClassIdAndDifficultyOrderByCreatedAtDesc(Long classId, String difficulty);
     
-    List<Exam> findByClassIdOrderByCreatedAtDesc(UUID classId);
+    List<Exam> findByClassIdOrderByCreatedAtDesc(Long classId);
 }

@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +25,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final ExamRepository examRepository;
     
-    public QuestionResponse addQuestion(UUID examId, CreateQuestionRequest request) {
+    public QuestionResponse addQuestion(Long examId, CreateQuestionRequest request) {
         Exam exam = examRepository.findById(examId)
                 .orElseThrow(() -> new ExamNotFoundException("시험을 찾을 수 없습니다: " + examId));
         
@@ -40,12 +39,11 @@ public class QuestionService {
         question.setPosition(request.position());
         
         Question savedQuestion = questionRepository.save(question);
-        exam.addQuestion(savedQuestion);
         
         return mapToQuestionResponse(savedQuestion);
     }
     
-    public List<QuestionResponse> listQuestions(UUID examId) {
+    public List<QuestionResponse> listQuestions(Long examId) {
         if (!examRepository.existsById(examId)) {
             throw new ExamNotFoundException("시험을 찾을 수 없습니다: " + examId);
         }
@@ -56,7 +54,7 @@ public class QuestionService {
                 .collect(Collectors.toList());
     }
     
-    public QuestionResponse updateQuestion(UUID questionId, UpdateQuestionRequest request) {
+    public QuestionResponse updateQuestion(Long questionId, UpdateQuestionRequest request) {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new QuestionNotFoundException("문항을 찾을 수 없습니다: " + questionId));
         
@@ -83,7 +81,7 @@ public class QuestionService {
         return mapToQuestionResponse(updatedQuestion);
     }
     
-    public void deleteQuestion(UUID questionId) {
+    public void deleteQuestion(Long questionId) {
         if (!questionRepository.existsById(questionId)) {
             throw new QuestionNotFoundException("문항을 찾을 수 없습니다: " + questionId);
         }
@@ -91,7 +89,7 @@ public class QuestionService {
         questionRepository.deleteById(questionId);
     }
     
-    public void reorderQuestions(UUID examId, Map<UUID, Integer> questionPositions) {
+    public void reorderQuestions(Long examId, Map<Long, Integer> questionPositions) {
         if (!examRepository.existsById(examId)) {
             throw new ExamNotFoundException("시험을 찾을 수 없습니다: " + examId);
         }
@@ -117,8 +115,6 @@ public class QuestionService {
                 .answerKey(question.getAnswerKey())
                 .points(question.getPoints())
                 .position(question.getPosition())
-                .caseInsensitive(question.getCaseInsensitive())
-                .createdAt(question.getCreatedAt())
                 .build();
     }
 }

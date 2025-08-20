@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +34,7 @@ public class ExamService {
         return mapToExamResponse(savedExam);
     }
     
-    public List<ExamResponse> findExams(UUID classId, String difficulty) {
+    public List<ExamResponse> findExams(Long classId, String difficulty) {
         List<Exam> exams;
         if (difficulty != null && !difficulty.trim().isEmpty()) {
             exams = examRepository.findByClassIdAndDifficultyOrderByCreatedAtDesc(classId, difficulty);
@@ -48,14 +47,14 @@ public class ExamService {
                 .collect(Collectors.toList());
     }
     
-    public ExamResponse getExam(UUID examId) {
+    public ExamResponse getExam(Long examId) {
         Exam exam = examRepository.findById(examId)
                 .orElseThrow(() -> new ExamNotFoundException("시험을 찾을 수 없습니다: " + examId));
         
         return mapToExamResponse(exam);
     }
     
-    public ExamResponse updateExam(UUID examId, UpdateExamRequest request) {
+    public ExamResponse updateExam(Long examId, UpdateExamRequest request) {
         Exam exam = examRepository.findById(examId)
                 .orElseThrow(() -> new ExamNotFoundException("시험을 찾을 수 없습니다: " + examId));
         
@@ -70,7 +69,7 @@ public class ExamService {
         return mapToExamResponse(updatedExam);
     }
     
-    public void deleteExam(UUID examId) {
+    public void deleteExam(Long examId) {
         if (!examRepository.existsById(examId)) {
             throw new ExamNotFoundException("시험을 찾을 수 없습니다: " + examId);
         }
@@ -80,7 +79,8 @@ public class ExamService {
     }
     
     private ExamResponse mapToExamResponse(Exam exam) {
-        List<QuestionResponse> questionResponses = exam.getQuestions().stream()
+        List<QuestionResponse> questionResponses = questionRepository.findByExamIdOrderByPositionAsc(exam.getId())
+                .stream()
                 .map(this::mapToQuestionResponse)
                 .collect(Collectors.toList());
         
@@ -104,8 +104,6 @@ public class ExamService {
                 .answerKey(question.getAnswerKey())
                 .points(question.getPoints())
                 .position(question.getPosition())
-                .caseInsensitive(question.getCaseInsensitive())
-                .createdAt(question.getCreatedAt())
                 .build();
     }
 }

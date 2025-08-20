@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/exams")
@@ -29,7 +29,7 @@ public class ExamController {
     
     @GetMapping
     public ResponseEntity<List<ExamResponse>> getExams(
-            @RequestParam UUID classId,
+            @RequestParam Long classId,
             @RequestParam(required = false) String difficulty) {
         log.info("시험 조회 요청: classId={}, difficulty={}", classId, difficulty);
         List<ExamResponse> exams = examService.findExams(classId, difficulty);
@@ -37,7 +37,7 @@ public class ExamController {
     }
     
     @GetMapping("/{examId}")
-    public ResponseEntity<ExamResponse> getExam(@PathVariable UUID examId) {
+    public ResponseEntity<ExamResponse> getExam(@PathVariable Long examId) {
         log.info("시험 상세 조회 요청: examId={}", examId);
         ExamResponse exam = examService.getExam(examId);
         return ResponseEntity.ok(exam);
@@ -45,7 +45,7 @@ public class ExamController {
     
     @PatchMapping("/{examId}")
     public ResponseEntity<ExamResponse> updateExam(
-            @PathVariable UUID examId,
+            @PathVariable Long examId,
             @Valid @RequestBody UpdateExamRequest request) {
         log.info("시험 수정 요청: examId={}, request={}", examId, request);
         ExamResponse response = examService.updateExam(examId, request);
@@ -53,7 +53,7 @@ public class ExamController {
     }
     
     @DeleteMapping("/{examId}")
-    public ResponseEntity<Void> deleteExam(@PathVariable UUID examId) {
+    public ResponseEntity<Void> deleteExam(@PathVariable Long examId) {
         log.info("시험 삭제 요청: examId={}", examId);
         examService.deleteExam(examId);
         return ResponseEntity.noContent().build();

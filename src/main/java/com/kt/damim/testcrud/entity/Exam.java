@@ -2,41 +2,35 @@ package com.kt.damim.testcrud.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 @Entity
 @Table(name = "exams")
-@Getter
-@Setter
-public class Exam extends BaseEntity {
-    
-    @Column(name = "class_id", nullable = false)
-    private UUID classId;
-    
+@Getter @Setter @NoArgsConstructor
+public class Exam {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "exam_id")
+    private Long id;
+
+    @Column(name = "class_id")
+    private Long classId;
+
     @Column(name = "name", nullable = false)
     private String name;
-    
-    @Column(name = "difficulty", nullable = false)
+
+    @Column(name = "difficulty")
     private String difficulty;
-    
+
     @Column(name = "created_by")
-    private UUID createdBy;
-    
-    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("position ASC")
-    private List<Question> questions = new ArrayList<>();
-    
-    public void addQuestion(Question question) {
-        questions.add(question);
-        question.setExam(this);
-    }
-    
-    public void removeQuestion(Question question) {
-        questions.remove(question);
-        question.setExam(null);
-    }
+    private Long createdBy;
+
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt = Instant.now();
 }

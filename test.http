@@ -1,17 +1,17 @@
 ### 환경
 @base = http://localhost:8080/api
-@classId = 11111111-1111-1111-1111-111111111111
-@teacherId = 22222222-2222-2222-2222-222222222222
+@classId = 11111111
+@teacherId = 22222222
 
 ### 1) 시험 생성
 POST {{base}}/exams
 Content-Type: application/json
 
 {
-  "classId": "{{classId}}",
+  "classId": {{classId}},
   "name": "네트워크 기초 퀴즈(HTTP)",
   "difficulty": "EASY",
-  "createdBy": "{{teacherId}}"
+  "createdBy": {{teacherId}}
 }
 
 > {%
@@ -23,10 +23,10 @@ Content-Type: application/json
             : (typeof response.body === 'string' ? JSON.parse(response.body) : response.body);
     } catch (e) { /* ignore */ }
     if (!obj || !obj.id) {
-        console.error('POST /exams 응답을 JSON으로 파싱하지 못함');
-        console.error('status =', response.status);
-        console.error('content-type =', response.headers['content-type']);
-        console.error('body =', response.body);
+        client.log('POST /exams 응답을 JSON으로 파싱하지 못함');
+        client.log('status = ' + response.status);
+        client.log('content-type = ' + response.headers['content-type']);
+        client.log('body = ' + response.body);
         throw new Error('examId를 추출할 수 없습니다. 응답이 JSON인지 확인하세요.');
     }
     client.global.set('examId', obj.id);
@@ -60,10 +60,10 @@ Content-Type: application/json
             : (typeof response.body === 'string' ? JSON.parse(response.body) : response.body);
     } catch (e) { /* ignore */ }
     if (!obj || !obj.id) {
-        console.error('POST /questions 응답을 JSON으로 파싱하지 못함');
-        console.error('status =', response.status);
-        console.error('content-type =', response.headers['content-type']);
-        console.error('body =', response.body);
+        client.log('POST /questions 응답을 JSON으로 파싱하지 못함');
+        client.log('status = ' + response.status);
+        client.log('content-type = ' + response.headers['content-type']);
+        client.log('body = ' + response.body);
         throw new Error('q1 추출 실패');
     }
     client.global.set('q1', obj.id);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api")
@@ -32,7 +32,7 @@ public class QuestionController {
 //    }
     @PostMapping(value = "/exams/{examId}/questions", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<QuestionResponse> addQuestion(
-            @PathVariable UUID examId,
+            @PathVariable Long examId,
             @Valid @RequestBody CreateQuestionRequest req) {
 
         QuestionResponse res = questionService.addQuestion(examId, req);
@@ -43,7 +43,7 @@ public class QuestionController {
     }
     
     @GetMapping("/exams/{examId}/questions")
-    public ResponseEntity<List<QuestionResponse>> listQuestions(@PathVariable UUID examId) {
+    public ResponseEntity<List<QuestionResponse>> listQuestions(@PathVariable Long examId) {
         log.info("문항 목록 조회 요청: examId={}", examId);
         List<QuestionResponse> questions = questionService.listQuestions(examId);
         return ResponseEntity.ok(questions);
@@ -51,7 +51,7 @@ public class QuestionController {
     
     @PatchMapping("/questions/{questionId}")
     public ResponseEntity<QuestionResponse> updateQuestion(
-            @PathVariable UUID questionId,
+            @PathVariable Long questionId,
             @Valid @RequestBody UpdateQuestionRequest request) {
         log.info("문항 수정 요청: questionId={}, request={}", questionId, request);
         QuestionResponse response = questionService.updateQuestion(questionId, request);
@@ -59,7 +59,7 @@ public class QuestionController {
     }
     
     @DeleteMapping("/questions/{questionId}")
-    public ResponseEntity<Void> deleteQuestion(@PathVariable UUID questionId) {
+    public ResponseEntity<Void> deleteQuestion(@PathVariable Long questionId) {
         log.info("문항 삭제 요청: questionId={}", questionId);
         questionService.deleteQuestion(questionId);
         return ResponseEntity.noContent().build();
@@ -67,8 +67,8 @@ public class QuestionController {
     
     @PutMapping("/exams/{examId}/questions/reorder")
     public ResponseEntity<Void> reorderQuestions(
-            @PathVariable UUID examId,
-            @RequestBody Map<UUID, Integer> questionPositions) {
+            @PathVariable Long examId,
+            @RequestBody Map<Long, Integer> questionPositions) {
         log.info("문항 순서 변경 요청: examId={}, positions={}", examId, questionPositions);
         questionService.reorderQuestions(examId, questionPositions);
         return ResponseEntity.ok().build();
