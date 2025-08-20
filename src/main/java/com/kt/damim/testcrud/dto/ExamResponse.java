@@ -12,6 +12,7 @@ public record ExamResponse(
     Long classId,
     String name,
     String difficulty,
+    Boolean isReady,
     Long createdBy,
     Instant createdAt,
     List<QuestionResponse> questions

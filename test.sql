@@ -11,6 +11,7 @@ CREATE TABLE exams (
     class_id BIGINT NOT NULL,
     name VARCHAR(255) NOT NULL,
     difficulty VARCHAR(255),
+    is_ready BOOLEAN NOT NULL DEFAULT FALSE,
     created_by BIGINT,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -37,16 +38,16 @@ CREATE INDEX idx_question_exam_position ON questions(exam_id, position);
 -- classId:  11111111
 -- createdBy: 22222222
 
--- 6) 시험 샘플 2개
-INSERT INTO exams (exam_id, class_id, name, difficulty, created_by, created_at)
+-- 6) 시험 샘플 2개 (ID 자동 생성)
+INSERT INTO exams (class_id, name, difficulty, is_ready, created_by, created_at)
 VALUES
-    (1, 11111111, '네트워크 기초 퀴즈', 'EASY', 22222222, NOW()),
-    (2, 11111111, '네트워크 중간고사', 'MEDIUM', 22222222, NOW());
+    (11111111, '네트워크 기초 퀴즈', 'EASY', FALSE, 22222222, NOW()),
+    (11111111, '네트워크 중간고사', 'MEDIUM', TRUE, 22222222, NOW());
 
--- 7) ID 1 시험의 문항 3개 (position 오름차순)
+-- 7) 첫 번째 시험의 문항 3개 (ID 자동 생성)
 INSERT INTO questions
-(question_id, exam_id, qtype, body, choices, answer_key, points, position)
+(exam_id, qtype, body, choices, answer_key, points, position)
 VALUES
-    (1, 1, 'MCQ', 'OSI 4계층의 명칭은?', '["Application","Transport","Network","Data Link"]', 'Transport', 5.00, 1),
-    (2, 1, 'SHORT', 'TCP 연결 수립 시 사용하는 handshake 단계 수?', NULL, '3', 5.00, 2),
-    (3, 1, 'MCQ', '다음 중 전송계층 프로토콜은?', '["IP","TCP","ARP","ICMP"]', 'TCP', 5.00, 3);
+    ((SELECT exam_id FROM exams WHERE name = '네트워크 기초 퀴즈' LIMIT 1), 'MCQ', 'OSI 4계층의 명칭은?', '["Application","Transport","Network","Data Link"]', 'Transport', 5.00, 1),
+    ((SELECT exam_id FROM exams WHERE name = '네트워크 기초 퀴즈' LIMIT 1), 'SHORT', 'TCP 연결 수립 시 사용하는 handshake 단계 수?', NULL, '3', 5.00, 2),
+    ((SELECT exam_id FROM exams WHERE name = '네트워크 기초 퀴즈' LIMIT 1), 'MCQ', '다음 중 전송계층 프로토콜은?', '["IP","TCP","ARP","ICMP"]', 'TCP', 5.00, 3);

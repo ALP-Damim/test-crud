@@ -4,11 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
-import java.util.List;
-
 
 @Entity
 @Table(name = "questions")
@@ -31,8 +30,8 @@ public class Question {
     private String body;
 
     @Column(name = "choices", columnDefinition = "jsonb")
-    @Convert(converter = StringListConverter.class)
-    private List<String> choices;
+    @JdbcTypeCode(SqlTypes.JSON)
+    private String choices;
 
     @Column(name = "answer_key")
     private String answerKey;

@@ -16,5 +16,7 @@ public record CreateExamRequest(
     @NotBlank(message = "난이도는 필수입니다")
     String difficulty,
 
+    Boolean isReady,
+
     Long createdBy
 ) {}

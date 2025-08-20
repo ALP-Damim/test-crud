@@ -19,7 +19,8 @@ import java.util.List;
 public class ExamController {
     
     private final ExamService examService;
-    
+
+
     @PostMapping
     public ResponseEntity<ExamResponse> createExam(@Valid @RequestBody CreateExamRequest request) {
         log.info("시험 생성 요청: {}", request);
@@ -48,6 +49,18 @@ public class ExamController {
             @PathVariable Long examId,
             @Valid @RequestBody UpdateExamRequest request) {
         log.info("시험 수정 요청: examId={}, request={}", examId, request);
+        ExamResponse response = examService.updateExam(examId, request);
+        return ResponseEntity.ok(response);
+    }
+    
+    @PatchMapping("/{examId}/ready")
+    public ResponseEntity<ExamResponse> updateExamReadyStatus(
+            @PathVariable Long examId,
+            @RequestParam Boolean isReady) {
+        log.info("시험 준비 상태 변경 요청: examId={}, isReady={}", examId, isReady);
+        UpdateExamRequest request = UpdateExamRequest.builder()
+                .isReady(isReady)
+                .build();
         ExamResponse response = examService.updateExam(examId, request);
         return ResponseEntity.ok(response);
     }

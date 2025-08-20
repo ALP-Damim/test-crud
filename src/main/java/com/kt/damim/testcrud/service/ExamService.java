@@ -28,6 +28,7 @@ public class ExamService {
         exam.setClassId(request.classId());
         exam.setName(request.name());
         exam.setDifficulty(request.difficulty());
+        exam.setIsReady(request.isReady() != null ? request.isReady() : false);
         exam.setCreatedBy(request.createdBy());
         
         Exam savedExam = examRepository.save(exam);
@@ -64,6 +65,9 @@ public class ExamService {
         if (request.difficulty() != null) {
             exam.setDifficulty(request.difficulty());
         }
+        if (request.isReady() != null) {
+            exam.setIsReady(request.isReady());
+        }
         
         Exam updatedExam = examRepository.save(exam);
         return mapToExamResponse(updatedExam);
@@ -89,6 +93,7 @@ public class ExamService {
                 .classId(exam.getClassId())
                 .name(exam.getName())
                 .difficulty(exam.getDifficulty())
+                .isReady(exam.getIsReady())
                 .createdBy(exam.getCreatedBy())
                 .createdAt(exam.getCreatedAt())
                 .questions(questionResponses)

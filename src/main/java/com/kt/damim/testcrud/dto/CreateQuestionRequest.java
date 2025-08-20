@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Builder
 public record CreateQuestionRequest(
@@ -17,7 +16,7 @@ public record CreateQuestionRequest(
     @NotBlank(message = "문제 본문은 필수입니다")
     String body,
     
-    List<String> choices,
+    String choices,
     
     @NotBlank(message = "정답은 필수입니다")
     String answerKey,
