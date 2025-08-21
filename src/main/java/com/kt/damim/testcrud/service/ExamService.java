@@ -25,7 +25,7 @@ public class ExamService {
     
     public ExamResponse createExam(CreateExamRequest request) {
         Exam exam = new Exam();
-        exam.setClassId(request.classId());
+        exam.setSessionId(request.sessionId());
         exam.setName(request.name());
         exam.setDifficulty(request.difficulty());
         exam.setIsReady(request.isReady() != null ? request.isReady() : false);
@@ -35,12 +35,12 @@ public class ExamService {
         return mapToExamResponse(savedExam);
     }
     
-    public List<ExamResponse> findExams(Long classId, String difficulty) {
+    public List<ExamResponse> findExams(Long sessionId, String difficulty) {
         List<Exam> exams;
         if (difficulty != null && !difficulty.trim().isEmpty()) {
-            exams = examRepository.findByClassIdAndDifficultyOrderByCreatedAtDesc(classId, difficulty);
+            exams = examRepository.findBySessionIdAndDifficultyOrderByCreatedAtDesc(sessionId, difficulty);
         } else {
-            exams = examRepository.findByClassIdOrderByCreatedAtDesc(classId);
+            exams = examRepository.findBySessionIdOrderByCreatedAtDesc(sessionId);
         }
         
         return exams.stream()
@@ -90,7 +90,7 @@ public class ExamService {
         
         return ExamResponse.builder()
                 .id(exam.getId())
-                .classId(exam.getClassId())
+                .sessionId(exam.getSessionId())
                 .name(exam.getName())
                 .difficulty(exam.getDifficulty())
                 .isReady(exam.getIsReady())

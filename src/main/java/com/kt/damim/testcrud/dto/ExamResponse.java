@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 public record ExamResponse(
     Long id,
-    Long classId,
+    Long sessionId,
     String name,
     String difficulty,
     Boolean isReady,

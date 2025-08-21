@@ -1,6 +1,7 @@
 ### 환경
-@base = http://localhost:8080/api
-@classId = 11111111
+#@base = http://localhost:8080/api
+@base = https://test-crud-gyf8cndnaeaxgea2.koreacentral-01.azurewebsites.net/api
+@sessionId = 11111111
 @teacherId = 22222222
 
 ### 1) 시험 생성
@@ -8,7 +9,7 @@ POST {{base}}/exams
 Content-Type: application/json
 
 {
-  "classId": {{classId}},
+  "sessionId": {{sessionId}},
   "name": "네트워크 기초 퀴즈(HTTP)",
   "difficulty": "EASY",
   "isReady": false,
@@ -36,8 +37,8 @@ Content-Type: application/json
 ### 2) 생성된 시험 상세 조회
 GET {{base}}/exams/{{examId}}
 
-### 3) 특정 클래스/난이도 목록 조회
-GET {{base}}/exams?classId={{classId}}&difficulty=EASY
+### 3) 특정 세션/난이도 목록 조회
+GET {{base}}/exams?sessionId={{sessionId}}&difficulty=EASY
 
 ### 4) 문항 추가 (객관식)
 POST {{base}}/exams/{{examId}}/questions
@@ -136,4 +137,4 @@ DELETE {{base}}/questions/{{q2}}
 DELETE {{base}}/exams/{{examId}}
 
 ### test1
-GET {{base}}/exams?classId={{classId}}
+GET {{base}}/exams?sessionId={{sessionId}}

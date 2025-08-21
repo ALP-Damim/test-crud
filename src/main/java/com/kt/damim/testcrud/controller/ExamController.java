@@ -30,10 +30,10 @@ public class ExamController {
     
     @GetMapping
     public ResponseEntity<List<ExamResponse>> getExams(
-            @RequestParam Long classId,
+            @RequestParam Long sessionId,
             @RequestParam(required = false) String difficulty) {
-        log.info("시험 조회 요청: classId={}, difficulty={}", classId, difficulty);
-        List<ExamResponse> exams = examService.findExams(classId, difficulty);
+        log.info("시험 조회 요청: sessionId={}, difficulty={}", sessionId, difficulty);
+        List<ExamResponse> exams = examService.findExams(sessionId, difficulty);
         return ResponseEntity.ok(exams);
     }
     

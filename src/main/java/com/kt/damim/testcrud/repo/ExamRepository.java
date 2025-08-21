@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ExamRepository extends JpaRepository<Exam, Long> {
     
-    List<Exam> findByClassIdAndDifficultyOrderByCreatedAtDesc(Long classId, String difficulty);
+    List<Exam> findBySessionIdAndDifficultyOrderByCreatedAtDesc(Long sessionId, String difficulty);
     
-    List<Exam> findByClassIdOrderByCreatedAtDesc(Long classId);
+    List<Exam> findBySessionIdOrderByCreatedAtDesc(Long sessionId);
 }

@@ -34,7 +34,7 @@ PATCH /api/exams/{examId}/ready?isReady=false
 ```http
 POST /api/exams
 {
-  "classId": 11111111,
+  "sessionId": 11111111,
   "name": "시험명",
   "difficulty": "EASY",
   "isReady": false,
@@ -69,7 +69,7 @@ POST /api/exams/{examId}/questions
 
 ### exams 테이블
 - `exam_id`: 시험 ID (Primary Key)
-- `class_id`: 클래스 ID
+- `session_id`: 세션 ID
 - `name`: 시험명
 - `difficulty`: 난이도
 - `is_ready`: 준비 상태 (기본값: false)

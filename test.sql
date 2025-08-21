@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS exams CASCADE;
 -- 2) 시험 테이블 생성
 CREATE TABLE exams (
     exam_id BIGSERIAL PRIMARY KEY,
-    class_id BIGINT NOT NULL,
+    session_id BIGINT NOT NULL,
     name VARCHAR(255) NOT NULL,
     difficulty VARCHAR(255),
     is_ready BOOLEAN NOT NULL DEFAULT FALSE,
@@ -29,17 +29,17 @@ CREATE TABLE questions (
 );
 
 -- 4) 인덱스 생성 (조회 최적화)
-CREATE INDEX idx_exam_class_diff ON exams(class_id, difficulty);
+CREATE INDEX idx_exam_session_diff ON exams(session_id, difficulty);
 CREATE INDEX idx_question_exam_position ON questions(exam_id, position);
 
 -- 5) 공용 Long ID
--- 클래스와 작성자 ID는 외부 MSA(클래스/계정 서비스)에서 온다고 가정
+-- 세션과 작성자 ID는 외부 MSA(세션/계정 서비스)에서 온다고 가정
 -- 여기서는 고정 Long 값을 사용
--- classId:  11111111
+-- sessionId:  11111111
 -- createdBy: 22222222
 
 -- 6) 시험 샘플 2개 (ID 자동 생성)
-INSERT INTO exams (class_id, name, difficulty, is_ready, created_by, created_at)
+INSERT INTO exams (session_id, name, difficulty, is_ready, created_by, created_at)
 VALUES
     (11111111, '네트워크 기초 퀴즈', 'EASY', FALSE, 22222222, NOW()),
     (11111111, '네트워크 중간고사', 'MEDIUM', TRUE, 22222222, NOW());
