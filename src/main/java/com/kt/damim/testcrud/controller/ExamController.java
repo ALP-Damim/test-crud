@@ -2,6 +2,7 @@ package com.kt.damim.testcrud.controller;
 
 import com.kt.damim.testcrud.dto.*;
 import com.kt.damim.testcrud.service.ExamService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/exams")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "시험 관리")
 public class ExamController {
     
     private final ExamService examService;

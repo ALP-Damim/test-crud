@@ -1,6 +1,6 @@
 ### 환경
 #@base = http://localhost:8080/api
-@base = https://test-crud-gyf8cndnaeaxgea2.koreacentral-01.azurewebsites.net/api
+@base = https://team02-apim.azure-api.net/test-crud
 @sessionId = 11111111
 @teacherId = 22222222
 

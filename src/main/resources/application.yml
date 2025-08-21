@@ -8,11 +8,13 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      maximum-pool-size: 10
-      minimum-idle: 5
-      idle-timeout: 300000
-      connection-timeout: 30000
-      max-lifetime: 1800000
+      pool-name: app-pool
+      maximum-pool-size: 5      # 서비스당 3~5 권장(데모 환경)
+      minimum-idle: 2
+      idle-timeout: 30000       # 30s
+      max-lifetime: 1800000     # 30m < Azure LB/TCP idle보다 짧게
+      keepalive-time: 300000    # 5m 주기 keepalive
+      connection-timeout: 30000 # 30s
       data-source-properties:
         # Azure PG ??
         ssl: true
@@ -51,3 +53,8 @@ logging:
   level:
     root: INFO
     com.kt.damim: DEBUG
+
+# Swagger 설정
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

@@ -2,6 +2,7 @@ package com.kt.damim.testcrud.controller;
 
 import com.kt.damim.testcrud.dto.*;
 import com.kt.damim.testcrud.service.QuestionService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import java.util.Map;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "문항 관리")
 public class QuestionController {
     
     private final QuestionService questionService;
