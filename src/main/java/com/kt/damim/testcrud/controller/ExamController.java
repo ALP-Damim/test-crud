@@ -20,7 +20,10 @@ public class ExamController {
     
     private final ExamService examService;
 
-
+    /** 시험 생성
+     * @param request 시험 생성 요청 데이터
+     * @return 생성된 시험 정보
+     */
     @PostMapping
     public ResponseEntity<ExamResponse> createExam(@Valid @RequestBody CreateExamRequest request) {
         log.info("시험 생성 요청: {}", request);
@@ -28,6 +31,11 @@ public class ExamController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
+    /** 시험 목록 조회
+     * @param sessionId 세션 ID
+     * @param difficulty 난이도
+     * @return 시험 목록
+     */
     @GetMapping
     public ResponseEntity<List<ExamResponse>> getExams(
             @RequestParam Long sessionId,
@@ -37,6 +45,10 @@ public class ExamController {
         return ResponseEntity.ok(exams);
     }
     
+    /** 시험 상세 조회
+     * @param examId 시험 ID
+     * @return 시험 상세 정보
+     */
     @GetMapping("/{examId}")
     public ResponseEntity<ExamResponse> getExam(@PathVariable Long examId) {
         log.info("시험 상세 조회 요청: examId={}", examId);
@@ -44,6 +56,11 @@ public class ExamController {
         return ResponseEntity.ok(exam);
     }
     
+    /** 시험 수정
+     * @param examId 시험 ID
+     * @param request 시험 수정 요청 데이터
+     * @return 수정된 시험 정보
+     */
     @PatchMapping("/{examId}")
     public ResponseEntity<ExamResponse> updateExam(
             @PathVariable Long examId,
@@ -53,6 +70,11 @@ public class ExamController {
         return ResponseEntity.ok(response);
     }
     
+    /** 시험 준비 상태 변경
+     * @param examId 시험 ID
+     * @param isReady 준비 상태
+     * @return 수정된 시험 정보
+     */
     @PatchMapping("/{examId}/ready")
     public ResponseEntity<ExamResponse> updateExamReadyStatus(
             @PathVariable Long examId,
@@ -65,6 +87,10 @@ public class ExamController {
         return ResponseEntity.ok(response);
     }
     
+    /** 시험 삭제
+     * @param examId 시험 ID
+     * @return 삭제 성공 여부
+     */
     @DeleteMapping("/{examId}")
     public ResponseEntity<Void> deleteExam(@PathVariable Long examId) {
         log.info("시험 삭제 요청: examId={}", examId);
